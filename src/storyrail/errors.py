@@ -16,3 +16,11 @@ class InvalidChoiceError(StoryRailError):
 
 class GameFinishedError(StoryRailError):
     """Raised when a choice is attempted after reaching an ending."""
+
+
+class ConfigurationError(StoryRailError):
+    """Raised when AI provider environment settings are invalid."""
+
+
+class ProviderError(StoryRailError):
+    """Raised when an AI provider cannot produce narration."""

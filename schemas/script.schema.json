@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/C18519898242/story-rail/blob/main/schemas/script.schema.json",
+  "title": "StoryRail Script",
+  "description": "StoryRail v1 剧本文件的数据结构。节点 ID 唯一性和 next 引用有效性属于跨字段规则，由 StoryRail 加载器负责。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "title",
+    "start_node",
+    "nodes"
+  ],
+  "properties": {
+    "schema_version": {
+      "description": "剧本结构版本。当前版本固定为整数 1。",
+      "type": "integer",
+      "const": 1
+    },
+    "id": {
+      "description": "剧本的稳定唯一标识。",
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "description": "展示给玩家的故事标题。",
+      "type": "string",
+      "minLength": 1
+    },
+    "start_node": {
+      "description": "游戏开始时进入的节点 ID，必须对应 nodes 中的一个节点。",
+      "type": "string",
+      "minLength": 1
+    },
+    "nodes": {
+      "description": "剧本中的全部普通节点和结局节点。节点 ID 必须在剧本内唯一。",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/story_node"
+          },
+          {
+            "$ref": "#/$defs/ending_node"
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "choice": {
+      "title": "Choice",
+      "description": "玩家可见的行动，以及剧本内部固定的结果和跳转。",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "text",
+        "result",
+        "next"
+      ],
+      "properties": {
+        "id": {
+          "description": "选项在当前节点内的稳定标识，同一节点内不能重复。",
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "description": "展示给玩家的行动描述。",
+          "type": "string",
+          "minLength": 1
+        },
+        "result": {
+          "description": "选择产生的固定剧情结果。该字段属于内部剧情约束，不在玩家选择前展示。",
+          "type": "string",
+          "minLength": 1
+        },
+        "next": {
+          "description": "选择完成后进入的节点 ID，必须对应 nodes 中的一个节点。",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "story_node": {
+      "title": "Story Node",
+      "description": "包含一个或多个玩家选项的普通剧情节点。",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "text",
+        "choices"
+      ],
+      "properties": {
+        "id": {
+          "description": "节点在当前剧本内的稳定唯一标识。",
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "description": "进入节点时展示给玩家的场景文字。",
+          "type": "string",
+          "minLength": 1
+        },
+        "choices": {
+          "description": "当前节点允许玩家采取的固定行动。",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/choice"
+          }
+        },
+        "ending": {
+          "description": "普通节点可以省略该字段；如果提供，只能为 false。",
+          "type": "boolean",
+          "const": false,
+          "default": false
+        }
+      }
+    },
+    "ending_node": {
+      "title": "Ending Node",
+      "description": "没有后续选项的结局节点。",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "text",
+        "ending"
+      ],
+      "properties": {
+        "id": {
+          "description": "节点在当前剧本内的稳定唯一标识。",
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "description": "展示给玩家的结局文字。",
+          "type": "string",
+          "minLength": 1
+        },
+        "ending": {
+          "description": "标记当前节点为结局。",
+          "type": "boolean",
+          "const": true
+        }
+      }
+    }
+  }
+}
