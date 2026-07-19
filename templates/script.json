@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "your-story-id",
+  "title": "故事标题",
+  "start_node": "start",
+  "nodes": [
+    {
+      "id": "start",
+      "text": "这里填写玩家进入故事后看到的开场场景。",
+      "choices": [
+        {
+          "id": "continue",
+          "text": "这里填写玩家可以采取的行动",
+          "result": "这里填写该行动造成的固定剧情结果。该内容不会在选择前展示给玩家。",
+          "next": "ending"
+        }
+      ]
+    },
+    {
+      "id": "ending",
+      "text": "这里填写故事结局。",
+      "ending": true
+    }
+  ]
+}
