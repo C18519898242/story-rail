@@ -8,3 +8,11 @@ class ScriptLoadError(StoryRailError):
 
 class ScriptValidationError(StoryRailError):
     """Raised when decoded script data violates schema rules."""
+
+
+class InvalidChoiceError(StoryRailError):
+    """Raised when a choice index is not available on the current node."""
+
+
+class GameFinishedError(StoryRailError):
+    """Raised when a choice is attempted after reaching an ending."""
