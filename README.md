@@ -37,6 +37,32 @@ AI 生成对白、动作和过渡描写
 
 AI 无权自行修改下一个节点、关键剧情结果或核心游戏状态。如果 AI 调用失败，游戏仍应能够根据剧本继续运行。
 
+## 当前可玩版本
+
+当前版本提供一个不依赖 AI 的确定性 CLI 剧情引擎和原创示例《雨夜相遇》。固定结果会直接显示，后续阶段再由 AI 生成受约束的演出文本。
+
+### 准备测试环境
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python -m pip install pytest
+```
+
+### 运行测试
+
+```powershell
+.venv\Scripts\python -m pytest -q
+```
+
+### 开始游戏
+
+```powershell
+$env:PYTHONPATH = "src"
+.venv\Scripts\python -m storyrail.cli examples/rainy-night/script.json
+```
+
+按照终端提示输入选项编号即可。当前版本不会联网，也不会创建存档。
+
 ## 第一阶段目标：CLI 最小可玩版本
 
 第一阶段只实现本地命令行版本，不开发前端、不启动长期运行的后端服务，也不引入数据库。

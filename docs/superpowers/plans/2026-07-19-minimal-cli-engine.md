@@ -713,7 +713,7 @@ def test_sample_has_expected_size_and_endings():
 
 def test_all_sample_endings_are_reachable():
     assert follow_path([0, 0, 0]).id == "dawn_ending"
-    assert follow_path([0, 1]).id == "safe_ending"
+    assert follow_path([0, 1, 0]).id == "safe_ending"
     assert follow_path([1, 1]).id == "lonely_ending"
 ```
 

@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "id": "rainy-night",
+  "title": "雨夜相遇",
+  "start_node": "rainy_night",
+  "nodes": [
+    {
+      "id": "rainy_night",
+      "text": "深夜的雨笼罩着青石街。你正准备回家，忽然看见一名陌生少女靠在路灯下，手臂上有一道正在渗血的伤口。",
+      "choices": [
+        {
+          "id": "stop_to_help",
+          "text": "停下来询问她是否需要帮助",
+          "result": "你撑伞走近。少女虽然戒备，却没有拒绝你的帮助。",
+          "next": "under_eaves"
+        },
+        {
+          "id": "walk_away",
+          "text": "装作没有看见，继续回家",
+          "result": "你从她身边走过，但雨声始终压不住心里的不安。",
+          "next": "regret"
+        }
+      ]
+    },
+    {
+      "id": "under_eaves",
+      "text": "你扶她躲到屋檐下。她自称苏荷，只说自己不能去官署，也不肯解释伤口从何而来。",
+      "choices": [
+        {
+          "id": "find_shelter",
+          "text": "先带她去附近的旧旅店避雨",
+          "result": "你尊重她的沉默，带她穿过小巷，来到仍亮着灯的旧旅店。",
+          "next": "old_inn"
+        },
+        {
+          "id": "find_doctor",
+          "text": "坚持先找一位可信的医生",
+          "result": "你说服她先处理伤口，并敲开了老医生家的后门。",
+          "next": "clinic"
+        }
+      ]
+    },
+    {
+      "id": "regret",
+      "text": "走出半条街后，你发现她的血迹正被雨水冲进排水沟。身后的街道安静得令人不安。",
+      "choices": [
+        {
+          "id": "turn_back",
+          "text": "立刻折返回去",
+          "result": "你转身跑回路灯下，终于在她倒下前扶住了她。",
+          "next": "under_eaves"
+        },
+        {
+          "id": "keep_walking",
+          "text": "告诉自己不要惹麻烦",
+          "result": "你没有回头，脚步却越来越沉。",
+          "next": "lonely_ending"
+        }
+      ]
+    },
+    {
+      "id": "old_inn",
+      "text": "旅店老板认出了苏荷腕上的旧徽记，却没有声张，只把钥匙和一封落满灰尘的信放到柜台上。",
+      "choices": [
+        {
+          "id": "trust_innkeeper",
+          "text": "相信老板，让苏荷读信",
+          "result": "信中留下了一条安全离城的路线，也解开了苏荷多年的误会。",
+          "next": "dawn_ending"
+        },
+        {
+          "id": "leave_inn",
+          "text": "不冒险停留，带苏荷从后门离开",
+          "result": "你们避开追踪者，在老医生的接应下穿过了城门。",
+          "next": "safe_ending"
+        }
+      ]
+    },
+    {
+      "id": "clinic",
+      "text": "老医生替苏荷包扎伤口，并认出追踪她的人来自城外。他打开一条通往河岸的隐秘通道。",
+      "choices": [
+        {
+          "id": "take_tunnel",
+          "text": "陪苏荷沿密道离开小镇",
+          "result": "你们赶在追踪者到来前抵达河岸，登上了清晨的第一艘船。",
+          "next": "safe_ending"
+        }
+      ]
+    },
+    {
+      "id": "dawn_ending",
+      "text": "天亮时，苏荷带着那封信踏上回乡的路。她在桥头回身向你挥手，而你知道这场相遇已经改变了两个人的命运。",
+      "ending": true
+    },
+    {
+      "id": "safe_ending",
+      "text": "晨雾掩住了你们离开的方向。苏荷终于放下戒备，第一次向你讲起她真正寻找的东西。",
+      "ending": true
+    },
+    {
+      "id": "lonely_ending",
+      "text": "第二天，路灯下只剩一把被雨水打翻的旧伞。你再也没有见过那名少女，也始终不知道昨夜错过了什么。",
+      "ending": true
+    }
+  ]
+}
