@@ -77,7 +77,7 @@ ANTHROPIC_MODEL=deepseek-v4-pro[1m]
 
 ### 配置模块
 
-`config.py` 使用 `python-dotenv` 加载当前工作目录的 `.env`，且不覆盖已经存在的系统环境变量。
+`config.py` 使用 `python-dotenv` 读取当前工作目录的 `.env`。项目 `.env` 的配置优先于同名系统环境变量；未在 `.env` 中设置的变量才回退到系统环境变量。Anthropic 的两个认证变量也按配置来源分层选择，避免全局 `ANTHROPIC_API_KEY` 意外覆盖项目 `.env` 中的 `ANTHROPIC_AUTH_TOKEN`。
 
 它产生统一的 `AIConfig`：
 

@@ -3,7 +3,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
-from dotenv import load_dotenv
+from dotenv import dotenv_values
 
 from storyrail.errors import ConfigurationError
 
@@ -34,9 +34,14 @@ def load_ai_config(
     environ: Mapping[str, str] | None = None,
     dotenv_path: str | Path = ".env",
 ) -> AIConfig:
+    dotenv_environ: Mapping[str, str] = {}
     if environ is None:
-        load_dotenv(dotenv_path=dotenv_path, override=False)
-        environ = os.environ
+        dotenv_environ = {
+            name: value
+            for name, value in dotenv_values(dotenv_path=dotenv_path).items()
+            if value is not None
+        }
+        environ = {**os.environ, **dotenv_environ}
 
     provider = (_value(environ, "AI_PROVIDER") or "mock").lower()
     if provider not in {"mock", "openai", "anthropic"}:
@@ -55,8 +60,11 @@ def load_ai_config(
             model=_required(_value(environ, "OPENAI_MODEL"), "OPENAI_MODEL"),
         )
 
-    anthropic_key = _value(environ, "ANTHROPIC_API_KEY") or _value(
-        environ, "ANTHROPIC_AUTH_TOKEN"
+    anthropic_key = (
+        _value(dotenv_environ, "ANTHROPIC_API_KEY")
+        or _value(dotenv_environ, "ANTHROPIC_AUTH_TOKEN")
+        or _value(environ, "ANTHROPIC_API_KEY")
+        or _value(environ, "ANTHROPIC_AUTH_TOKEN")
     )
     return AIConfig(
         provider="anthropic",

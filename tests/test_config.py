@@ -12,6 +12,30 @@ def test_provider_defaults_to_mock():
     assert config.model is None
 
 
+def test_project_dotenv_takes_precedence_over_system_environment(
+    tmp_path, monkeypatch
+):
+    dotenv_path = tmp_path / ".env"
+    dotenv_path.write_text(
+        "AI_PROVIDER=anthropic\n"
+        "ANTHROPIC_BASE_URL=https://project.test/anthropic\n"
+        "ANTHROPIC_AUTH_TOKEN=project-token\n"
+        "ANTHROPIC_MODEL=project-model\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("AI_PROVIDER", "openai")
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "global-key")
+    monkeypatch.setenv("ANTHROPIC_BASE_URL", "https://global.test/anthropic")
+    monkeypatch.setenv("ANTHROPIC_MODEL", "global-model")
+
+    config = load_ai_config(dotenv_path=dotenv_path)
+
+    assert config.provider == "anthropic"
+    assert config.base_url == "https://project.test/anthropic"
+    assert config.api_key == "project-token"
+    assert config.model == "project-model"
+
+
 def test_provider_name_is_normalized():
     config = load_ai_config({"AI_PROVIDER": "  MoCk  "})
 
