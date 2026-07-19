@@ -1,0 +1,16 @@
+# Local novels, generated scripts, and work-specific prompts.
+# Keep the directory skeleton through tracked .gitkeep files.
+/content/**
+!/content/**/
+!/content/**/.gitkeep
+
+# Local play state and append-only session history.
+/saves/**
+!/saves/.gitkeep
+/transcripts/**
+!/transcripts/.gitkeep
+
+# Local secrets
+.env
+.env.*
+!.env.example
