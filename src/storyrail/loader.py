@@ -22,7 +22,7 @@ def _string(data: dict[str, Any], key: str, context: str) -> str:
 def parse_script(data: object) -> Script:
     root = _object(data, "剧本")
     version = root.get("schema_version")
-    if version != 1 or isinstance(version, bool):
+    if type(version) is not int or version != 1:
         raise ScriptValidationError("schema_version 必须是整数 1")
 
     script_id = _string(root, "id", "剧本")

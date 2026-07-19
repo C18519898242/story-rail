@@ -53,6 +53,7 @@ def test_load_script_reports_json_location(tmp_path):
 @pytest.mark.parametrize(
     ("mutate", "message"),
     [
+        (lambda data: data.update(schema_version=1.0), "schema_version"),
         (lambda data: data["nodes"].append(data["nodes"][0].copy()), "节点 ID 重复"),
         (lambda data: data.update(start_node="missing"), "入口节点不存在"),
         (
