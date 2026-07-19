@@ -6,11 +6,29 @@ from storyrail.config import load_ai_config
 from storyrail.engine import StoryEngine
 from storyrail.errors import ProviderError, StoryRailError
 from storyrail.loader import load_script
-from storyrail.models import Script
+from storyrail.models import Node, Script
 from storyrail.narrator import Narrator
 from storyrail.providers.base import ModelProvider
 from storyrail.providers.factory import create_provider
 from storyrail.providers.mock import MockProvider
+
+
+def _read_choice_index(
+    node: Node,
+    input_fn: Callable[[str], str],
+    output_fn: Callable[[str], None],
+) -> int:
+    while True:
+        raw_choice = input_fn("请选择：").strip()
+        try:
+            selected_index = int(raw_choice) - 1
+        except ValueError:
+            output_fn("请输入有效的选项编号。")
+            continue
+        if selected_index < 0 or selected_index >= len(node.choices):
+            output_fn("请输入有效的选项编号。")
+            continue
+        return selected_index
 
 
 def play(
@@ -35,18 +53,7 @@ def play(
         for number, choice in enumerate(node.choices, start=1):
             output_fn(f"{number}. {choice.text}")
 
-        while True:
-            raw_choice = input_fn("请选择：").strip()
-            try:
-                selected_index = int(raw_choice) - 1
-            except ValueError:
-                output_fn("请输入有效的选项编号。")
-                continue
-            if selected_index < 0 or selected_index >= len(node.choices):
-                output_fn("请输入有效的选项编号。")
-                continue
-            break
-
+        selected_index = _read_choice_index(node, input_fn, output_fn)
         selected_choice = node.choices[selected_index]
         fixed_result = engine.choose(selected_index)
         output_fn("")
